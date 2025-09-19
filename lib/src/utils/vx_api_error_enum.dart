@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-enum ApiErrorCode {
+enum VXApiErrorCode {
   // 请求成功
   SUCCESS(10000, "请求成功"),
   // 参数错误相关
@@ -39,10 +39,10 @@ enum ApiErrorCode {
   final int code;
   final String message;
 
-  const ApiErrorCode(this.code, this.message);
+  const VXApiErrorCode(this.code, this.message);
 
-  static ApiErrorCode fromCode(int code) {
-    for (var errorCode in ApiErrorCode.values) {
+  static VXApiErrorCode fromCode(int code) {
+    for (var errorCode in VXApiErrorCode.values) {
       if (errorCode.code == code) {
         return errorCode;
       }

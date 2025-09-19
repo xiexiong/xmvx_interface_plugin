@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:xmvx_interface_plugin/src/http/vx_interface_httpUtils.dart';
 
-class HttpRequestUtils {
-  static final HttpRequestUtils _instance = HttpRequestUtils._internal();
+class VXHttpRequestUtils {
+  static final VXHttpRequestUtils _instance = VXHttpRequestUtils._internal();
   bool videoTypeIsOpen = false;
 
-  factory HttpRequestUtils() => _instance;
-  HttpRequestUtils._internal();
+  factory VXHttpRequestUtils() => _instance;
+  VXHttpRequestUtils._internal();
 
   static Future<String?> getCVSubmitTask(dynamic jsonBody) async {
     return _instance._getCVSubmitTaskImpl(jsonBody);
@@ -55,7 +55,7 @@ class HttpRequestUtils {
 
   Future<String> _getRespBody(action, jsonStr) async {
     // 创建实例
-    final httpSignUtil = VxInterfaceHttputils(
+    final httpSignUtil = VXInterfaceHttputils(
       region: 'cn-north-1',
       service: 'cv',
       schema: 'https',

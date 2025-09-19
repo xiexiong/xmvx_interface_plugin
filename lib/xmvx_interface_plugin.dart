@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:xmvx_interface_plugin/src/http/http_request_utils.dart';
+import 'package:xmvx_interface_plugin/src/http/vx_http_request_utils.dart';
 
 class XmvxInterfacePlugin {
   static final XmvxInterfacePlugin _instance = XmvxInterfacePlugin._internal();
@@ -23,7 +23,7 @@ class XmvxInterfacePlugin {
 
   static Future<String?> getSingleCreateImage(int modeType, String imageUrl) async {
     var jsonStr = jsonEncode({'req_key': imageType[modeType], 'image_url': imageUrl});
-    String? reqBody = await HttpRequestUtils.getCVSubmitTask(jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getCVSubmitTask(jsonStr);
     return reqBody;
   }
 
@@ -39,13 +39,13 @@ class XmvxInterfacePlugin {
       'audio_url': audio_url,
       'resource_id': resource_id,
     });
-    String? reqBody = await HttpRequestUtils.getCVSubmitTask(jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getCVSubmitTask(jsonStr);
     return reqBody;
   }
 
   static Future<String?> getVideoUpdateLipShape(String mp4, String mp3) async {
     var jsonStr = jsonEncode({'req_key': "realman_change_lips", 'url': mp4, 'pure_audio_url': mp3});
-    String? reqBody = await HttpRequestUtils.getCVSubmitTask(jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getCVSubmitTask(jsonStr);
     return reqBody;
   }
 
@@ -54,7 +54,7 @@ class XmvxInterfacePlugin {
       'req_key': "jimeng_realman_avatar_picture_create_role_omni",
       'image_url': imageUrl,
     });
-    String? reqBody = await HttpRequestUtils.getCVSubmitTask(jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getCVSubmitTask(jsonStr);
     return reqBody;
   }
 
@@ -64,7 +64,7 @@ class XmvxInterfacePlugin {
       'url': imageUrl,
       'pure_audio_url': audioUrl,
     });
-    String? reqBody = await HttpRequestUtils.getCVSubmitTask(jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getCVSubmitTask(jsonStr);
     return reqBody;
   }
 }

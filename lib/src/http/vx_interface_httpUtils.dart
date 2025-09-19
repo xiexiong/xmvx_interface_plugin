@@ -6,7 +6,7 @@ import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
-class VxInterfaceHttputils {
+class VXInterfaceHttputils {
   static const _urlEncoderChars =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~';
   static const _hexChars = '0123456789ABCDEF';
@@ -19,7 +19,7 @@ class VxInterfaceHttputils {
   final String ak;
   final String sk;
 
-  VxInterfaceHttputils({
+  VXInterfaceHttputils({
     required this.region,
     required this.service,
     required this.schema,
