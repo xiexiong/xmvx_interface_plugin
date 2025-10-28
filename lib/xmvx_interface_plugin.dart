@@ -61,8 +61,8 @@ class XmvxInterfacePlugin {
   static Future<String?> getAIVideoGeneration(String imageUrl, String audioUrl) async {
     var jsonStr = jsonEncode({
       'req_key': "jimeng_realman_avatar_picture_omni_v2",
-      'url': imageUrl,
-      'pure_audio_url': audioUrl,
+      'image_url': imageUrl,
+      'audio_url': audioUrl,
     });
     String? reqBody = await VXHttpRequestUtils.getCVSubmitTask(jsonStr);
     return reqBody;
