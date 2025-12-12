@@ -7,25 +7,17 @@ class VXHttpRequestUtils {
   factory VXHttpRequestUtils() => _instance;
   VXHttpRequestUtils._internal();
 
-  static Future<String?> getCVSubmitTask(dynamic jsonBody) async {
+  static Future<String?> getSubmitTask(dynamic jsonBody) async {
     return _instance._getCVSubmitTaskImpl(jsonBody);
   }
 
   Future<String?> _getCVSubmitTaskImpl(dynamic jsonBody) async {
-    var reqKey = jsonDecode(jsonBody);
     String jsonResult = await _getRespBody("CVSubmitTask", jsonBody);
-    var resultBody = jsonDecode(jsonResult);
-    if (resultBody['code'] != 10000) {
-      return jsonResult;
-    }
+    return jsonResult;
+  }
 
-    String taskId = resultBody["data"]["task_id"];
-    String? retBody = "";
-    while (retBody == "") {
-      retBody = await _getCVGetResultImpl(reqKey['req_key'], taskId);
-      await Future.delayed(const Duration(seconds: 3));
-    }
-    return retBody;
+  static Future<String?> getResultImpl(String reqKey, String taskId) async {
+    return _instance._getCVGetResultImpl(reqKey, taskId);
   }
 
   Future<String?> _getCVGetResultImpl(String reqKey, String taskId) async {

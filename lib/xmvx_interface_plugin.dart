@@ -23,7 +23,12 @@ class XmvxInterfacePlugin {
 
   static Future<String?> getSingleCreateImage(int modeType, String imageUrl) async {
     var jsonStr = jsonEncode({'req_key': imageType[modeType], 'image_url': imageUrl});
-    String? reqBody = await VXHttpRequestUtils.getCVSubmitTask(jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getSubmitTask(jsonStr);
+    return reqBody;
+  }
+
+  static Future<String?> getSingleCreateImageResult(int modeType, String taskId) async {
+    String? reqBody = await VXHttpRequestUtils.getResultImpl(imageType[modeType], taskId);
     return reqBody;
   }
 
@@ -39,13 +44,23 @@ class XmvxInterfacePlugin {
       'audio_url': audio_url,
       'resource_id': resource_id,
     });
-    String? reqBody = await VXHttpRequestUtils.getCVSubmitTask(jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getSubmitTask(jsonStr);
+    return reqBody;
+  }
+
+  static Future<String?> getSingleVideoGenerationResult(int modeType, String taskId) async {
+    String? reqBody = await VXHttpRequestUtils.getResultImpl(videoType[modeType], taskId);
     return reqBody;
   }
 
   static Future<String?> getVideoUpdateLipShape(String mp4, String mp3) async {
     var jsonStr = jsonEncode({'req_key': "realman_change_lips", 'url': mp4, 'pure_audio_url': mp3});
-    String? reqBody = await VXHttpRequestUtils.getCVSubmitTask(jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getSubmitTask(jsonStr);
+    return reqBody;
+  }
+
+  static Future<String?> getVideoUpdateLipShapeResult(String taskId) async {
+    String? reqBody = await VXHttpRequestUtils.getResultImpl("realman_change_lips", taskId);
     return reqBody;
   }
 
@@ -54,7 +69,15 @@ class XmvxInterfacePlugin {
       'req_key': "jimeng_realman_avatar_picture_create_role_omni",
       'image_url': imageUrl,
     });
-    String? reqBody = await VXHttpRequestUtils.getCVSubmitTask(jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getSubmitTask(jsonStr);
+    return reqBody;
+  }
+
+  static Future<String?> getAISubjectIdentificationResult(String taskId) async {
+    String? reqBody = await VXHttpRequestUtils.getResultImpl(
+      "jimeng_realman_avatar_picture_create_role_omni",
+      taskId,
+    );
     return reqBody;
   }
 
@@ -64,7 +87,15 @@ class XmvxInterfacePlugin {
       'image_url': imageUrl,
       'audio_url': audioUrl,
     });
-    String? reqBody = await VXHttpRequestUtils.getCVSubmitTask(jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getSubmitTask(jsonStr);
+    return reqBody;
+  }
+
+  static Future<String?> getAIVideoGenerationResult(String taskId) async {
+    String? reqBody = await VXHttpRequestUtils.getResultImpl(
+      "jimeng_realman_avatar_picture_omni_v2",
+      taskId,
+    );
     return reqBody;
   }
 }
