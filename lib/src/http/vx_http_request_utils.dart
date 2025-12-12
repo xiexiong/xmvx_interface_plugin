@@ -3,7 +3,6 @@ import 'package:xmvx_interface_plugin/src/http/vx_interface_httpUtils.dart';
 
 class VXHttpRequestUtils {
   static final VXHttpRequestUtils _instance = VXHttpRequestUtils._internal();
-  bool videoTypeIsOpen = false;
 
   factory VXHttpRequestUtils() => _instance;
   VXHttpRequestUtils._internal();
@@ -13,21 +12,16 @@ class VXHttpRequestUtils {
   }
 
   Future<String?> _getCVSubmitTaskImpl(dynamic jsonBody) async {
-    if (videoTypeIsOpen) {
-      return "{\"code\": 99999,\"message\": \"有任务正在进行中，请稍后再试\"}";
-    }
-    videoTypeIsOpen = true;
     var reqKey = jsonDecode(jsonBody);
     String jsonResult = await _getRespBody("CVSubmitTask", jsonBody);
     var resultBody = jsonDecode(jsonResult);
     if (resultBody['code'] != 10000) {
-      videoTypeIsOpen = false;
       return jsonResult;
     }
 
     String taskId = resultBody["data"]["task_id"];
     String? retBody = "";
-    while (videoTypeIsOpen) {
+    while (retBody == "") {
       retBody = await _getCVGetResultImpl(reqKey['req_key'], taskId);
       await Future.delayed(const Duration(seconds: 3));
     }
@@ -39,16 +33,10 @@ class VXHttpRequestUtils {
     String jsonResult = await _getRespBody("CVGetResult", jsonStr);
     var resultBody = jsonDecode(jsonResult);
     if (resultBody['code'] != 10000) {
-      videoTypeIsOpen = false;
       return jsonResult;
     }
-    if (resultBody['data']['status'] == "generating") {
-      videoTypeIsOpen = true;
-    } else {
-      videoTypeIsOpen = false;
-      if (resultBody['data']['status'] == "done") {
-        return jsonResult;
-      }
+    if (resultBody['data']['status'] == "done") {
+      return jsonResult;
     }
     return "";
   }
