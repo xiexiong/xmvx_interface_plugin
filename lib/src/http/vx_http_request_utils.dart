@@ -7,22 +7,40 @@ class VXHttpRequestUtils {
   factory VXHttpRequestUtils() => _instance;
   VXHttpRequestUtils._internal();
 
-  static Future<String?> getSubmitTask(dynamic jsonBody) async {
-    return _instance._getCVSubmitTaskImpl(jsonBody);
+  static Future<String?> getSubmitTask(
+    String credential,
+    String signature,
+    dynamic jsonBody,
+  ) async {
+    return _instance._getCVSubmitTaskImpl(credential, signature, jsonBody);
   }
 
-  Future<String?> _getCVSubmitTaskImpl(dynamic jsonBody) async {
-    String jsonResult = await _getRespBody("CVSubmitTask", jsonBody);
+  Future<String?> _getCVSubmitTaskImpl(
+    String credential,
+    String signature,
+    dynamic jsonBody,
+  ) async {
+    String jsonResult = await _getRespBody(credential, signature, "CVSubmitTask", jsonBody);
     return jsonResult;
   }
 
-  static Future<String?> getResultImpl(String reqKey, String taskId) async {
-    return _instance._getCVGetResultImpl(reqKey, taskId);
+  static Future<String?> getResultImpl(
+    String credential,
+    String signature,
+    String reqKey,
+    String taskId,
+  ) async {
+    return _instance._getCVGetResultImpl(credential, signature, reqKey, taskId);
   }
 
-  Future<String?> _getCVGetResultImpl(String reqKey, String taskId) async {
+  Future<String?> _getCVGetResultImpl(
+    String credential,
+    String signature,
+    String reqKey,
+    String taskId,
+  ) async {
     var jsonStr = jsonEncode({'req_key': reqKey, 'task_id': taskId});
-    String jsonResult = await _getRespBody("CVGetResult", jsonStr);
+    String jsonResult = await _getRespBody(credential, signature, "CVGetResult", jsonStr);
     var resultBody = jsonDecode(jsonResult);
     if (resultBody['code'] != 10000) {
       return jsonResult;
@@ -33,17 +51,9 @@ class VXHttpRequestUtils {
     return "";
   }
 
-  Future<String> _getRespBody(action, jsonStr) async {
+  Future<String> _getRespBody(credential, signature, action, jsonStr) async {
     // 创建实例
-    final httpSignUtil = VXInterfaceHttputils(
-      region: 'cn-north-1',
-      service: 'cv',
-      schema: 'https',
-      host: 'visual.volcengineapi.com',
-      path: '/',
-      ak: 'AKLTZDVlMjUyMmFkNjI0NDVlMzg2ZjhlMTZkZmE4YmYyZDk',
-      sk: 'TURSaFlqaGhPV013T1RNeE5EYzNaVGhrWVRKaVlqVTNNVGxqT0RKbVpqSQ==',
-    );
+    final httpSignUtil = VXInterfaceHttputils();
     // 发起请求
     try {
       final response = await httpSignUtil.doRequest(
@@ -51,7 +61,8 @@ class VXHttpRequestUtils {
         bodyJson: jsonStr,
         date: DateTime.now().toUtc(),
         action: action,
-        version: '2022-08-31',
+        credential: credential,
+        signature: signature,
       );
       // ignore: avoid_print
       print('Response status: ${response.statusCode}');
