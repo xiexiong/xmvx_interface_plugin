@@ -10,37 +10,41 @@ class VXHttpRequestUtils {
   static Future<String?> getSubmitTask(
     String credential,
     String signature,
+    String xData,
     dynamic jsonBody,
   ) async {
-    return _instance._getCVSubmitTaskImpl(credential, signature, jsonBody);
+    return _instance._getCVSubmitTaskImpl(credential, signature, xData, jsonBody);
   }
 
   Future<String?> _getCVSubmitTaskImpl(
     String credential,
     String signature,
+    String xData,
     dynamic jsonBody,
   ) async {
-    String jsonResult = await _getRespBody(credential, signature, "CVSubmitTask", jsonBody);
+    String jsonResult = await _getRespBody(credential, signature, xData, "CVSubmitTask", jsonBody);
     return jsonResult;
   }
 
   static Future<String?> getResultImpl(
     String credential,
     String signature,
+    String xData,
     String reqKey,
     String taskId,
   ) async {
-    return _instance._getCVGetResultImpl(credential, signature, reqKey, taskId);
+    return _instance._getCVGetResultImpl(credential, signature, xData, reqKey, taskId);
   }
 
   Future<String?> _getCVGetResultImpl(
     String credential,
     String signature,
+    String xData,
     String reqKey,
     String taskId,
   ) async {
     var jsonStr = jsonEncode({'req_key': reqKey, 'task_id': taskId});
-    String jsonResult = await _getRespBody(credential, signature, "CVGetResult", jsonStr);
+    String jsonResult = await _getRespBody(credential, signature, xData, "CVGetResult", jsonStr);
     var resultBody = jsonDecode(jsonResult);
     if (resultBody['code'] != 10000) {
       return jsonResult;
@@ -51,7 +55,7 @@ class VXHttpRequestUtils {
     return "";
   }
 
-  Future<String> _getRespBody(credential, signature, action, jsonStr) async {
+  Future<String> _getRespBody(credential, signature, xData, action, jsonStr) async {
     // 创建实例
     final httpSignUtil = VXInterfaceHttputils();
     // 发起请求
@@ -59,8 +63,8 @@ class VXHttpRequestUtils {
       final response = await httpSignUtil.doRequest(
         method: 'POST',
         bodyJson: jsonStr,
-        date: DateTime.now().toUtc(),
         action: action,
+        xDate: xData,
         credential: credential,
         signature: signature,
       );

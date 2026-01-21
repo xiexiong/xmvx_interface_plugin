@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:xmvx_interface_plugin/src/http/vx_xmvx_signature_util.dart';
 
 class VXInterfaceHttputils {
@@ -13,15 +12,13 @@ class VXInterfaceHttputils {
   Future<http.Response> doRequest({
     required String method,
     required String bodyJson,
-    required DateTime date,
     required String action,
+    required String xDate,
     required String credential,
     required String signature,
   }) async {
     final body = utf8.encode(bodyJson);
     final xContentSha256 = _hashSHA256(body);
-    final formatter = DateFormat("yyyyMMdd'T'HHmmss'Z'");
-    final xDate = formatter.format(date.toUtc());
     const contentType = 'application/json';
     const signHeader = 'host;x-date;x-content-sha256;content-type';
 

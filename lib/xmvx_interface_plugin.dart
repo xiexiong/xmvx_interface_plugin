@@ -26,23 +26,26 @@ class XmvxInterfacePlugin {
   static Future<String?> getSingleCreateImage(
     String credential,
     String signature,
+    String xData,
     int modeType,
     String imageUrl,
   ) async {
     var jsonStr = jsonEncode({'req_key': imageType[modeType], 'image_url': imageUrl});
-    String? reqBody = await VXHttpRequestUtils.getSubmitTask(credential, signature, jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getSubmitTask(credential, signature, xData, jsonStr);
     return reqBody;
   }
 
   static Future<String?> getSingleCreateImageResult(
     String credential,
     String signature,
+    String xData,
     int modeType,
     String taskId,
   ) async {
     String? reqBody = await VXHttpRequestUtils.getResultImpl(
       credential,
       signature,
+      xData,
       imageType[modeType],
       taskId,
     );
@@ -52,6 +55,7 @@ class XmvxInterfacePlugin {
   static Future<String?> getSingleVideoGeneration(
     String credential,
     String signature,
+    String xData,
     int modeType,
     // ignore: non_constant_identifier_names
     String audio_url,
@@ -63,19 +67,21 @@ class XmvxInterfacePlugin {
       'audio_url': audio_url,
       'resource_id': resource_id,
     });
-    String? reqBody = await VXHttpRequestUtils.getSubmitTask(credential, signature, jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getSubmitTask(credential, signature, xData, jsonStr);
     return reqBody;
   }
 
   static Future<String?> getSingleVideoGenerationResult(
     String credential,
     String signature,
+    String xData,
     int modeType,
     String taskId,
   ) async {
     String? reqBody = await VXHttpRequestUtils.getResultImpl(
       credential,
       signature,
+      xData,
       videoType[modeType],
       taskId,
     );
@@ -85,22 +91,25 @@ class XmvxInterfacePlugin {
   static Future<String?> getVideoUpdateLipShape(
     String credential,
     String signature,
+    String xData,
     String mp4,
     String mp3,
   ) async {
     var jsonStr = jsonEncode({'req_key': "realman_change_lips", 'url': mp4, 'pure_audio_url': mp3});
-    String? reqBody = await VXHttpRequestUtils.getSubmitTask(credential, signature, jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getSubmitTask(credential, signature, xData, jsonStr);
     return reqBody;
   }
 
   static Future<String?> getVideoUpdateLipShapeResult(
     String credential,
     String signature,
+    String xData,
     String taskId,
   ) async {
     String? reqBody = await VXHttpRequestUtils.getResultImpl(
       credential,
       signature,
+      xData,
       "realman_change_lips",
       taskId,
     );
@@ -110,24 +119,27 @@ class XmvxInterfacePlugin {
   static Future<String?> getAISubjectIdentification(
     String credential,
     String signature,
+    String xData,
     String imageUrl,
   ) async {
     var jsonStr = jsonEncode({
       'req_key': "jimeng_realman_avatar_picture_create_role_omni",
       'image_url': imageUrl,
     });
-    String? reqBody = await VXHttpRequestUtils.getSubmitTask(credential, signature, jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getSubmitTask(credential, signature, xData, jsonStr);
     return reqBody;
   }
 
   static Future<String?> getAISubjectIdentificationResult(
     String credential,
     String signature,
+    String xData,
     String taskId,
   ) async {
     String? reqBody = await VXHttpRequestUtils.getResultImpl(
       credential,
       signature,
+      xData,
       "jimeng_realman_avatar_picture_create_role_omni",
       taskId,
     );
@@ -137,6 +149,7 @@ class XmvxInterfacePlugin {
   static Future<String?> getAIVideoGeneration(
     String credential,
     String signature,
+    String xData,
     String imageUrl,
     String audioUrl,
   ) async {
@@ -145,18 +158,20 @@ class XmvxInterfacePlugin {
       'image_url': imageUrl,
       'audio_url': audioUrl,
     });
-    String? reqBody = await VXHttpRequestUtils.getSubmitTask(credential, signature, jsonStr);
+    String? reqBody = await VXHttpRequestUtils.getSubmitTask(credential, signature, xData, jsonStr);
     return reqBody;
   }
 
   static Future<String?> getAIVideoGenerationResult(
     String credential,
     String signature,
+    String xData,
     String taskId,
   ) async {
     String? reqBody = await VXHttpRequestUtils.getResultImpl(
       credential,
       signature,
+      xData,
       "jimeng_realman_avatar_picture_omni_v2",
       taskId,
     );

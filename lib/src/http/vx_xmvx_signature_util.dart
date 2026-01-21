@@ -1,14 +1,13 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:intl/intl.dart';
 
 class VxXmvxSignatureUtil {
   static const _urlEncoderChars =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~';
   static const _hexChars = '0123456789ABCDEF';
 
-  static Map<String, String> generateSignatureParam(String action, String bodyJson) {
+  static String generateSignatureParam(String action, String bodyJson) {
     final realQueryList = <String, String>{'Action': action, 'Version': '2022-08-31'};
     final querySB = StringBuffer();
     realQueryList.forEach((key, value) {
@@ -19,10 +18,6 @@ class VxXmvxSignatureUtil {
         ..write('&');
     });
     final queryString = querySB.toString().substring(0, querySB.length - 1);
-
-    final formatter = DateFormat("yyyyMMdd'T'HHmmss'Z'");
-    final date = DateTime.now().toUtc();
-    final xDate = formatter.format(date.toUtc());
 
     final body = utf8.encode(bodyJson);
     final xContentSha256 = _hashSHA256(body);
@@ -36,15 +31,14 @@ class VxXmvxSignatureUtil {
       '/',
       queryString,
       'host:visual.volcengineapi.com',
-      'x-date:$xDate',
+      'x-date:xxxx',
       'x-content-sha256:$xContentSha256',
       'content-type:$contentType',
       '',
       signHeader,
       xContentSha256,
     ].join('\n');
-    var map = {'canonicalStringBuilder': canonicalStringBuilder, 'xDate': xDate};
-    return map;
+    return canonicalStringBuilder;
   }
 
   static String signStringEncoder(String source) {
